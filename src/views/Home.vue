@@ -1,5 +1,18 @@
 <template>
-  <div class="home">
-    <h1>Colander</h1>
-  </div>
+  <v-container class="home">
+    <div class="m-auto text-center">
+      <h1>Colander</h1>
+      <p>Простой способ наделать дырок</p>
+    </div>
+  </v-container>
 </template>
+
+<style>
+  .home {
+    display: flex;
+    height: 100%;
+  }
+  .m-auto {
+    margin: auto;
+  }
+</style>

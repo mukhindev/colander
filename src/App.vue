@@ -1,23 +1,17 @@
 <template>
   <v-app>
-    <v-app-bar app dark elevate-on-scroll color="blue">
-      <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-      <v-toolbar-title>Colander</v-toolbar-title>
-      <v-spacer></v-spacer>
-    </v-app-bar>
 
-    <v-navigation-drawer
-      v-model="drawer"
-      absolute
-      temporary
-    >
-      <v-list
-        nav
-        dense
-      >
-        <v-list-item-group
-          active-class="blue--text"
-        >
+    <div class="burger primary">
+      <v-app-bar-nav-icon @click="drawer = true" class="white--text" />
+    </div>
+
+    <v-navigation-drawer v-model="drawer" absolute temporary>
+      <v-list nav dense >
+
+        <h1 class="mb-2">Colander</h1>
+
+        <v-list-item-group active-class="blue--text">
+
           <v-list-item to="/">
             <v-list-item-icon>
               <v-icon>mdi-home</v-icon>
@@ -33,12 +27,14 @@
           </v-list-item>
 
         </v-list-item-group>
+
       </v-list>
     </v-navigation-drawer>
 
     <v-content>
       <router-view/>
     </v-content>
+
   </v-app>
 </template>
 
@@ -49,3 +45,28 @@ export default {
   })
 }
 </script>
+
+<style>
+.burger {
+  position: fixed;
+  z-index: 5;
+  top: 0.5rem;
+  left: 0.5rem;
+}
+.p-relative {
+  position: relative;
+}
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner {
+  background: rgb(230, 230, 230);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.5);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(0, 0, 0, 0.3);
+}
+</style>
