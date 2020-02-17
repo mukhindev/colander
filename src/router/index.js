@@ -14,6 +14,11 @@ const routes = [
     path: '/editor',
     name: 'Editor',
     component: () => import(/* webpackChunkName: "editor" */ '../views/Editor.vue')
+  },
+  {
+    path: '/converter',
+    name: 'Converter',
+    component: () => import(/* webpackChunkName: "converter" */ '../views/Converter.vue')
   }
 ]
 

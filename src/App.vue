@@ -26,6 +26,13 @@
             <v-list-item-title>Редактор</v-list-item-title>
           </v-list-item>
 
+          <v-list-item to="/converter">
+            <v-list-item-icon>
+              <v-icon>mdi-format-page-break</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Конвертор</v-list-item-title>
+          </v-list-item>
+
         </v-list-item-group>
 
       </v-list>

@@ -71,7 +71,6 @@
                 label="Глубина"
                 :value="holes[act].z"
                 @change="value => holes[act].z = value"
-                :rules="rules"
                 type="number"
                 suffix="мм"
                 onfocus="this.select()"
@@ -85,7 +84,6 @@
                 label="x"
                 :value="holes[act].x"
                 @change="value => holes[act].x = value"
-                :rules="rules"
                 type="number"
                 suffix="мм"
                 onfocus="this.select()"
@@ -99,7 +97,6 @@
                 label="y"
                 :value="holes[act].y"
                 @change="value => holes[act].y = value"
-                :rules="rules"
                 type="number"
                 suffix="мм"
                 onfocus="this.select()"
@@ -117,7 +114,7 @@
     <v-row class="output">
       <v-col>
         <v-container fluid>
-          <pre v-for="(line, i) in output" :key="i" :class="{ active: (i - 1) === act }">{{ line }}</pre>
+          <pre v-for="(line, i) in output" :key="i" :class="{ active: (i - 1) === act }" @click="setLine(i)">{{ line }}</pre>
         </v-container>
       </v-col>
     </v-row>
@@ -149,10 +146,10 @@ export default {
   },
   computed: {
     output () {
-      const line = this.holes.map(element => `XB X=${element.x} Y=${element.y} Z=${element.z} T=101 F1 K0 P0 Q=0# R=5# x=0 y=0`)
+      const lines = this.holes.map(element => `XB X=${element.x} Y=${element.y} Z=${element.z} T=101 F1 K0 P0 Q=0# R=5# x=0 y=0`)
       return [
         `H DX=${this.w} DY=${this.h} DZ=20.00 -A C=0 T=0 R=1 *MM /"def.tlg"`,
-        ...line
+        ...lines
       ]
     },
     active () {
@@ -178,6 +175,9 @@ export default {
         }
       )
       this.act = this.holes.length - 1
+    },
+    setLine (i) {
+      if (i > 0) this.act = i - 1
     }
   }
 }
