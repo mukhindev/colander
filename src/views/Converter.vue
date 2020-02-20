@@ -4,9 +4,12 @@
       <v-col cols="12" sm="4">
         <v-textarea
           label="mpr"
-          outlined
           v-model="mpr"
-        ></v-textarea>
+          outlined
+        />
+        <a v-if="mpr && xxl.length > 2" :href="`${base}`" :download="`gcode_${this.json[0].LA}_${this.json[0].BR}.xxl`" target="_blank">
+          Скачать .xxl
+        </a>
       </v-col>
       <v-col cols="12" sm="4">
         <pre v-for="(x, i) in xxl" :key="i">{{ x }}</pre>
@@ -24,7 +27,7 @@ export default {
   },
   computed: {
     json () {
-      const rg = /<100|<102/
+      const rg = /^<100|<102/
       const json = this.mpr
         .split(/\s\n\s*/)
         .filter(el => {
@@ -43,10 +46,29 @@ export default {
       return json
     },
     xxl () {
-      if (this.json.length < 2) return ['Вставьте код .MPR в поле слева ...']
-      const lines = this.json.map(element => `XB X=${element.XA} Y=${element.YA} Z=${element.TI} T=101 F1 K0 P0 Q=0# R=5# x=0 y=0`)
+      if (!this.mpr) return ['Вставьте код программы KDT Trepan (*.MPR) в поле слева ...']
+      if (this.json.length < 2) return ['В коде не найдено нужных фрагментов']
+      const lines = this.json.map(el => {
+        return 'XB' + ' ' +
+        `X=${el.XA}` + ' ' +
+        `Y=${el.YA}` + ' ' +
+        `Z=${el.TI}` + ' ' +
+        'T=101' + ' ' +
+        'F1' + ' ' +
+        'K0' + ' ' +
+        'P0' + ' ' +
+        'Q=0#' + ' ' +
+        'R=5#' + ' ' +
+        'x=0' + ' ' +
+        'y=0'
+      })
       lines[0] = `H DX=${this.json[0].LA} DY=${this.json[0].BR} DZ=${this.json[0].DI} -A C=0 T=0 R=1 *MM /"def.tlg"`
       return lines
+    },
+    base () {
+      if (this.xxl.length < 2) return ''
+      const str = this.xxl.toString().replace(/,/g, '\n')
+      return 'data:application/octet-stream;base64, ' + window.btoa(str)
     }
   }
 }
