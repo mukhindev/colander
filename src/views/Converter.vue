@@ -24,25 +24,23 @@ export default {
   },
   computed: {
     json () {
-      const file1 = this.mpr.split('<')
-
-      const file2 = []
-
-      for (const f in file1) {
-        const sp = file1[f].split('\n')
-        sp[0] = `type: ${sp[0].slice(0, 3)}`
-        const string = `${sp.toString().replace(/[=]/g, ':')}`.replace(', ,', '').replace(',!,', '')
-        file2.push(string)
-      }
-
-      const ii = file2.filter(el => !el.includes('VERSION')).filter(el => !el.includes('101'))
-
-      const result = ii.map(el => el.split(',').map((el2, index) => {
-        const t = el2.split(':')
-        return `"${t[0]}": "${t[1].replace(/["]/g, '').trim()}"`
-      }))
-
-      return result.map(el => JSON.parse(`{${el.toString()}}`))
+      const rg = /<100|<102/
+      const json = this.mpr
+        .split(/\s\n\s*/)
+        .filter(el => {
+          return rg.test(el)
+        })
+        .map(el => {
+          const str = el.trim().split(/\n\s*/)
+            .map((el, index) => {
+              if (index === 0) el = `type=${/\d+/.exec(el)}`
+              return el.replace(/["]/g, '')
+                .split('=').map(el => `"${el}"`).join(':')
+            })
+            .join()
+          return JSON.parse(`{${str}}`)
+        })
+      return json
     },
     xxl () {
       if (this.json.length < 2) return ['Вставьте код .MPR в поле слева ...']
