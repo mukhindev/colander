@@ -1,6 +1,6 @@
 # Colander (alpha)
 
-https://mukhin.dev/colander
+https://mukhindev.github.io/colander/
 
 Colander (с англ. – дуршлаг) – web-приложение позволяющие быстро подготовить G-code (управляющую программу) для сверловки на станке с ЧПУ от SCM (Xilog Plus). 
 
